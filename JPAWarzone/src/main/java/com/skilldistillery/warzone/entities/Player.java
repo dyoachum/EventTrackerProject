@@ -11,7 +11,7 @@ public class Player {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private int id;
-		private String name;
+		private String player;
 		public int getId() {
 			return id;
 		}
@@ -19,17 +19,17 @@ public class Player {
 			this.id = id;
 		}
 		public String getName() {
-			return name;
+			return player;
 		}
 		public void setName(String name) {
-			this.name = name;
+			this.player = name;
 		}
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + id;
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + ((player == null) ? 0 : player.hashCode());
 			return result;
 		}
 		@Override
@@ -43,16 +43,16 @@ public class Player {
 			Player other = (Player) obj;
 			if (id != other.id)
 				return false;
-			if (name == null) {
-				if (other.name != null)
+			if (player == null) {
+				if (other.player != null)
 					return false;
-			} else if (!name.equals(other.name))
+			} else if (!player.equals(other.player))
 				return false;
 			return true;
 		}
 		@Override
 		public String toString() {
-			return "Player [id=" + id + ", name=" + name + "]";
+			return "player [id=" + id + ", name=" + player + "]";
 		}
 		public Player() {
 			super();
@@ -60,6 +60,6 @@ public class Player {
 		public Player(int id, String name) {
 			super();
 			this.id = id;
-			this.name = name;
+			this.player = name;
 		}
 }
