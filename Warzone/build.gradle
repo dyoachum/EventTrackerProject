@@ -3,6 +3,12 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 }
+apply plugin: 'war'
+war {
+  enabled = true
+  archiveName = "${baseName}.war"     // Our app name, as defined in settings.gradle
+  destinationDir = file("../")         // Project root directory
+}
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
