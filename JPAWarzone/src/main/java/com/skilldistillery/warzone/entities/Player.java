@@ -1,5 +1,6 @@
 package com.skilldistillery.warzone.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,23 @@ public class Player {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private int id;
-		private String player;
+		private String name;
+		
+		@Column(name = "kill_amount")
+		private int killAmount;
+		
+		public int getKillAmount() {
+			return killAmount;
+		}
+		public void setKillAmount(int killAmount) {
+			this.killAmount = killAmount;
+		}
+		public Player(int id, String name, int killAmount) {
+			super();
+			this.id = id;
+			this.name = name;
+			this.killAmount = killAmount;
+		}
 		public int getId() {
 			return id;
 		}
@@ -19,17 +36,18 @@ public class Player {
 			this.id = id;
 		}
 		public String getName() {
-			return player;
+			return name;
 		}
 		public void setName(String name) {
-			this.player = name;
+			this.name = name;
 		}
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + id;
-			result = prime * result + ((player == null) ? 0 : player.hashCode());
+			result = prime * result + killAmount;
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			return result;
 		}
 		@Override
@@ -43,16 +61,18 @@ public class Player {
 			Player other = (Player) obj;
 			if (id != other.id)
 				return false;
-			if (player == null) {
-				if (other.player != null)
+			if (killAmount != other.killAmount)
+				return false;
+			if (name == null) {
+				if (other.name != null)
 					return false;
-			} else if (!player.equals(other.player))
+			} else if (!name.equals(other.name))
 				return false;
 			return true;
 		}
 		@Override
 		public String toString() {
-			return "player [id=" + id + ", name=" + player + "]";
+			return "Player [id=" + id + ", name=" + name + ", killAmount=" + killAmount + "]";
 		}
 		public Player() {
 			super();
@@ -60,6 +80,6 @@ public class Player {
 		public Player(int id, String name) {
 			super();
 			this.id = id;
-			this.player = name;
+			this.name = name;
 		}
 }
