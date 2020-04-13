@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.warzone.entities.Player;
@@ -43,45 +42,47 @@ public class PlayerController {
 		}
 		return player;
 	}
-
 	@PostMapping("players")
-	@ResponseBody
-	public Player addPlayer(@RequestBody Player player, HttpServletRequest request, HttpServletResponse response) {
+	public Player postPlayer(@RequestBody Player player, HttpServletResponse response) {
 		try {
-			Player addPlayer = playSvc.createPlayer(player);
-			response.setStatus(201);
-			StringBuffer url = request.getRequestURL();
-			url.append("/").append(player.getId());
-			String location = url.toString();
-			response.addHeader("Location", location);
-			return addPlayer;
+			player = playSvc.createPlayer(player);
+			if (player == null) {
+				response.setStatus(400);
+				return null;
+			} else {
+				response.setStatus(201);
+				return player;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(400);
 			return null;
 		}
 	}
-	@PutMapping("players/{id}")
-	public Player updatePlayer(@PathVariable("id") int id, @RequestBody Player player,
-			HttpServletResponse resp) {
-		try {
-			player = playSvc.updatePlayer(id, player);
-			if (player == null) {
-				resp.setStatus(400);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			resp.setStatus(400);
-			player = null;
-		}
-		return player;
-	}
+
+//	@PostMapping("players")
+//	
+//	public Player addPlayer(@RequestBody Player player, HttpServletRequest request, HttpServletResponse response) {
+//		try {
+//			Player addPlayer = playSvc.createPlayer(player);
+//			response.setStatus(201);
+//			StringBuffer url = request.getRequestURL();
+//			url.append("/").append(player.getId());
+//			String location = url.toString();
+//			response.addHeader("Location", location);
+//			return addPlayer;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			response.setStatus(400);
+//			return null;
+//		}
+//	}
 	@DeleteMapping("players/{id}")
 	public void deletePlayer(@PathVariable("id") int id, HttpServletResponse response) {
 		try {
 			if (playSvc.deleteById(id)) {
 				response.setStatus(204);
-
+				
 			} else {
 				response.setStatus(404);
 			}
@@ -90,4 +91,24 @@ public class PlayerController {
 			response.setStatus(409);
 		}
 	}
+
+	@PutMapping("players/{id}")
+	public Player updatePlayer(@PathVariable("id") int id, @RequestBody Player player, HttpServletResponse resp) {
+		try {
+			player = playSvc.updatePlayer(id, player);
+			if (player == null) {
+				resp.setStatus(400);
+				return null;
+			} else {
+				resp.setStatus(201);
+				return player;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resp.setStatus(400);
+			return null;
+		}
+		
+	}
+
 }

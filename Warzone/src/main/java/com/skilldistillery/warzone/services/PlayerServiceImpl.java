@@ -46,14 +46,17 @@ public class PlayerServiceImpl implements PlayerService{
 
 	@Override
 	public Player updatePlayer(int id, Player player) {
+		Player managedPlayer = null;
+	
 		Optional<Player> opPlayer = playRepo.findById(id);
 		if(opPlayer.isPresent()) {
-			Player managedPlayer = opPlayer.get();
+			managedPlayer = opPlayer.get();
 			managedPlayer.setId(player.getId());
 			managedPlayer.setName(player.getName());
 			managedPlayer.setKillAmount(player.getKillAmount());
+			return playRepo.saveAndFlush(managedPlayer);
 		}
-		return null;
+		return managedPlayer;
 	}
 
 	@Override
