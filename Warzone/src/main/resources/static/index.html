@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Warzone Kill Tracker</title>
-<script src="js.script.js"></script>
+<script src="js/script.js"></script>
 </head>
 <body>
 	<h1>Welcome to the Warzone</h1>
@@ -13,5 +13,39 @@
 	<!-- TODO: List all events when page loads-->
 	<!-- TODO: New event form-->
 	<!-- TODO: Edit Event form-->
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id: </th>
+				<th>Name: </th>
+				<th>Kill Count: </th>
+			</tr>
+		</thead>
+		<tbody id= 'playerList'>
+			
+		</tbody>
+	</table>
+	<hr />
+	<form id="createPlayer" name="createPlayer" action="" method="get" class="form-example">
+		<div class="form-example">
+		  <label for="id">Enter Player Id: </label>
+		  <input type="text" name="id" id="id" required>
+		</div>
+		<div class="form-example">
+		  <label for="name">Enter Player Name: </label>
+		  <input type="name" name="playerName" id="playerName" required>
+		</div>
+		<div class="form-example">
+			<label for="killAmount">Enter Player Kill Count: </label>
+			<input type="killAmount" name="killAmount" id="killAmount" required>
+		  </div>
+		<div class="form-example">
+		  <input type="submit" id='newPlayer' name='newPlayer' value="Create">
+		</div>
+	  </form>
+
+	
+	
 </body>
 </html>
