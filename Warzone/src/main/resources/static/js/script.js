@@ -17,16 +17,16 @@ var oReq = new XMLHttpRequest();
 			
 			
             let data = JSON.parse(this.responseText);
-            data.forEach(player => {
-				console.log(player.name)
+            data.forEach(newPlayer => {
+				console.log(newPlayer.name)
 				let tr = document.createElement('tr');
 				dataDiv.appendChild(tr);
 				let td = document.createElement('td');
-				td.textContent = player.id;
+				td.textContent = newPlayer.id;
 				let nameLi = document.createElement('td');
-				nameLi.textContent = player.name;
+				nameLi.textContent = newPlayer.name;
 				let killLi = document.createElement('td');
-				killLi.textContent = player.killAmount;
+				killLi.textContent = newPlayer.killAmount;
 				tr.appendChild(td);
 				tr.appendChild(nameLi);
 				tr.appendChild(killLi);
@@ -50,14 +50,40 @@ function init(){
 		let newPlayer = {
 				id: form.id.value,
 				name: form.playerName.value,
-				killCount: form.killAmount.value,
+				killAmount: form.killAmount.value,
 				
-		};
-		// createFilm(film);
-		console.log('clicked');
+			};
+			createPlayer(newPlayer);
+		
 		console.log(newPlayer)
 	});
 }
+function createPlayer(newPlayer) {
+	let newPlayerJson = JSON.stringify(newPlayer);
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', 'api/players');
+	xhr.setRequestHeader('Content-type', 'application/json');
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === 4) {
+			switch (xhr.status) {
+			case 200:
+			case 201:
+				newPlayerJson = xhr.responseText;
+				let newPlayer = JSON.parse(newPlayerJson);
+				displayplayer(newPlayer);
+				break;
+			case 400:
+				displayNotFound("Invalid newPlayer data: " + newPlayerJson);
+				break;
+			default:
+				displayNotFound("Error occurred: " + xhr.status);
+				break;
+			}
+		}
+	}
+	xhr.send(newPlayerJson);	
+}
+
 
 
 
